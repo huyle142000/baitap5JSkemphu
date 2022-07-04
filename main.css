@@ -1,0 +1,6 @@
+#channel{
+    display: none;
+}
+#channel.show{
+    display: inline-block;
+}
