@@ -123,43 +123,53 @@ resultIncome.addEventListener('click', () => {
 
     var output = 0;
     //progress
-    function billTax(a, b) {
-        var output = 0;
-
-        if (a <= 60000000) {
-            output = a - (4e+6) - (b * 1.6) - a * 0.05;
-        } else if (a <= 120000000) {
-            output = a - (4e-6) - (b * 1.6) - a * 0.1;
-
-        } else if (a <= 210000000) {
-            output = a - (4e+6) - (b * 1.6) - a * 0.15;
-
-        } else if (a <= 384000000) {
-            output = a - (4e+6) - (b * 1.6) - a * 0.2;
-
-        } else if (a <= 624000000) {
-            output = a - (4e+6) - (b * 1.6) - a * 0.25;
-
-        } else if (a <= 960000000) {
-            output = a - (4e+6) - (b * 1.6) - a * 0.3;
-
-        } else if (a > 960000000) {
-            output = a - (4e+6) - (b * 1.6) - a * 0.35;
-
-        }
-        if (a === 0) {
-            return output = '<div class="text-danger">Bạn chưa nhập đủ dữ liệu</div>';
-
-        } else if (output < 0) {
-            output = '<div class="text-danger">Số bạn nhập ko hợp lệ vì ra kết qủa âm</div>';
-            return output;
-        }
-        return output;
-    }
+ 
     output = billTax(income, peoples)
     var resultincomes = document.getElementById("resultincomes");
-    resultincomes.innerHTML = 'Tiền thuế phải trả : ' + output;
+    resultincomes.innerHTML = 'Tiền thuế phải trả : ' + output.toLocaleString() + " VNĐ";
 })
+function billTax(a, b) {
+    var output = 0;
+    var calc=0;
+    if (a <= 60000000) {
+        calc=a - (4e+6) - (b * 1.6e+6);
+        output =calc * 0.05;
+    } else if (a <= 120000000) {
+        calc=a - (4e+6) - (b * 1.6e+6);
+        output =calc * 0.1;
+
+    } else if (a <= 210000000) {
+        calc=a - (4e+6) - (b * 1.6e+6);
+        output =calc *  0.15;
+
+    } else if (a <= 384000000) {
+        calc=a - (4e+6) - (b * 1.6e+6);
+        output =calc *  0.2;
+
+
+    } else if (a <= 624000000) {
+        calc=a - (4e+6) - (b * 1.6e+6);
+        output =calc *  0.25;
+
+    } else if (a <= 960000000) {
+        calc=a - (4e+6) - (b * 1.6e+6);
+        output =calc *  0.3;
+        
+
+    } else if (a > 960000000) {
+        calc=a - (4e+6) - (b * 1.6e+6);
+        output =calc *  0.35;
+
+    }
+    if (a === 0) {
+        return output = '<div class="text-danger">Bạn chưa nhập đủ dữ liệu</div>';
+
+    } else if (output < 0) {
+        output = '<div class="text-danger">Số bạn nhập ko hợp lệ vì ra kết qủa âm</div>';
+        return output;
+    }
+    return output;
+}
 
 /**
  * Bt4:Tính tiền cáp
@@ -195,34 +205,37 @@ channelBtn.onclick = function () {
     var premiumChannel = Number(document.getElementById('premiumChannel').value);
     var channel = Number(document.getElementById('channel').value);
     var clients = Number(document.getElementById('clients').value);
+    var resultchannel = document.getElementById('resultchannel');
     //output
     var output = 0;
 
     //progress
-    function channelBill(a, b, c) {
-        var billFeebasic = 0;
-        var billFeeservice = 0;
-        var billUsePremiumChannel = 0;
-        var output = 0;
-        if (a === 1) {
-            billFeebasic = 4.5;
-            billFeeservice = 20.5;
-            billUsePremiumChannel = 7.5;
-            output = billFeebasic + billFeeservice + billUsePremiumChannel * b
-        } else if (a === 2) {
-            billFeebasic = 15;
-            billFeeservice = 75;
-            billUsePremiumChannel = 50;
-            if (c > 10) {
-                billFeeservice = billFeeservice + (c - 10) * 5;
-            }
-            output = billFeebasic + billFeeservice + billUsePremiumChannel * b
-        }
-        return output;
+    output = channelBill(clients, premiumChannel, channel);
+    if(clients==0){
+        return alert("Please select type of clients");
     }
-    output = channelBill(clients, premiumChannel, channel)
-
-    var resultchannel = document.getElementById('resultchannel');
+    
     resultchannel.innerHTML = `Mã Khách hàng : ${codeClient}, Tiền cáp là : $${output}`
-
+    
+}
+function channelBill(a, b, c) {
+    var billFeebasic = 0;
+    var billFeeservice = 0;
+    var billUsePremiumChannel = 0;
+    var output = 0;
+    if (a === 1) {
+        billFeebasic = 4.5;
+        billFeeservice = 20.5;
+        billUsePremiumChannel = 7.5;
+        output = billFeebasic + billFeeservice + billUsePremiumChannel * b
+    } else if (a === 2) {
+        billFeebasic = 15;
+        billFeeservice = 75;
+        billUsePremiumChannel = 50;
+        if (c > 10) {
+            billFeeservice = billFeeservice + (c - 10) * 5;
+        }
+        output = billFeebasic + billFeeservice + billUsePremiumChannel * b
+    }
+    return output;
 }
